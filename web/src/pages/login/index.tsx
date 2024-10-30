@@ -16,14 +16,26 @@ function Login() {
   const [userPassword, setUserPassword] = useState("");
 
   function login() {
-    try {
-      api.post("/login", {
+    api
+      .post("/login", {
         email: userEmail,
         password: userPassword,
+      })
+      .then((response) => {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        navigate("/firstPage");
+      })
+      .catch((error) => {
+        switch (error.status) {
+          case 404:
+            alert("Usuário não encontrado");
+            break;
+          case 401:
+            alert("Senha incorreta");
+            break;
+        }
       });
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   return (
