@@ -73,4 +73,11 @@ router.post("/user", async (req, res) => {
   console.log(newUser);
 });
 
+router.delete("/user", async (req, res) => {
+  const { id } = req.body;
+  const deletedUser = await User.destroy({ where: { id } });
+  res.json(deletedUser);
+  console.log(deletedUser);
+})
+
 module.exports = router;

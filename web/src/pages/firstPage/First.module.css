@@ -25,3 +25,29 @@
   list-style: none;
   cursor: pointer;
 }
+
+#ballsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+  margin-top: 100px;
+}
+
+.ball {
+  width: 300px;
+  aspect-ratio: 1;
+  border: 5px solid green;
+}
+
+.ball > img {
+  width: 100%;
+}
+
+#header > div > button {
+  margin-left: 30px;
+  background-color: transparent;
+  color: green;
+  font-size: 2em;
+  border: none;
+  cursor: pointer;
+}
