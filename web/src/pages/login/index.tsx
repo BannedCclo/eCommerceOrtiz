@@ -24,7 +24,7 @@ function Login() {
       .then((response) => {
         const token = response.data.token;
         localStorage.setItem("token", token);
-        navigate("/firstPage");
+        navigate("/");
       })
       .catch((error) => {
         switch (error.status) {
@@ -65,7 +65,7 @@ function Login() {
         <button id={styles.loginButton} onClick={login}>
           Enviar
         </button>
-        <h2 id={styles.signUp} onClick={() => navigate("signUp")}>
+        <h2 id={styles.signUp} onClick={() => navigate("/signUp")}>
           Criar uma conta
         </h2>
       </div>

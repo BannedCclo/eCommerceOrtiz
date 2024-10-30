@@ -1,6 +1,8 @@
 import styles from "./First.module.css";
 import api from "../../service";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CustomJwtPayload extends JwtPayload {
   id: number;
@@ -16,31 +18,41 @@ interface User {
 }
 
 const FirstPage = () => {
+  const jwt_decode = jwtDecode;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    validarToken();
+  }, []);
+
   function validarToken() {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwtDecode<CustomJwtPayload>(token);
-      const email = decodedToken.email;
-      const userArr = api.get("/users").then((response) => {
-        const users = response.data.filter(
-          (user: User) => user.email === email
-        );
-        if (users.length > 0) {
-          console.log("Token válido");
-        } else {
-          console.log("Token inválido");
-        }
+    const token = localStorage.getItem("token") || "";
+    api
+      .get("/validate-token", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log(response);
+        const decodedToken: User = jwt_decode(token);
+        console.log(decodedToken.type);
+      })
+      .catch((error) => {
+        console.log(error);
+        localStorage.removeItem("token");
+        navigate("/login");
       });
-    } else {
-      console.log("Token não encontrado");
-    }
   }
 
   return (
     <div className={styles.container}>
-      <button id="validaToken" onClick={validarToken}>
-        Validar
-      </button>
+      <header id={styles.header}>
+        <h1>Tizão Bolas</h1>
+        <ul>
+          <li>
+            <i className="fa-solid fa-user-group"></i>
+          </li>
+        </ul>
+      </header>
     </div>
   );
 };

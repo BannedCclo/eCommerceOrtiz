@@ -8,9 +8,9 @@ function RoutesWeb() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" Component={Login} />
+        <Route path="/login" Component={Login} />
         <Route path="/signUp" Component={SignUp} />
-        <Route path="/firstPage" Component={FirstPage} />
+        <Route path="/" Component={FirstPage} />
       </Routes>
     </BrowserRouter>
   );

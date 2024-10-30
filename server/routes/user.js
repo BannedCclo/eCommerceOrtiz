@@ -12,6 +12,27 @@ router.get("/test", (req, res) => {
   }
 });
 
+router.get("/validate-token", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ isValid: false, message: "Token não fornecido" });
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res
+        .status(403)
+        .json({ isValid: false, message: "Token inválido ou expirado" });
+    }
+
+    res.json({ isValid: true, type: decoded.type });
+  });
+});
+
 router.get("/users", async (req, res) => {
   const userArr = await User.findAll().catch((err) => console.log(err));
   res.json(userArr);
@@ -35,6 +56,8 @@ router.post("/login", async (req, res) => {
   const payload = {
     id: user.id,
     email: user.email,
+    type: user.type,
+    username: user.username,
   };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
 
