@@ -1,13 +1,8 @@
 import styles from "./First.module.css";
 import api from "../../service";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface CustomJwtPayload extends JwtPayload {
-  id: number;
-  email: string;
-}
 
 interface User {
   id: string;
