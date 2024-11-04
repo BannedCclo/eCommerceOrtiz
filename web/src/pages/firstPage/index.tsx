@@ -3,6 +3,7 @@ import api from "../../service";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Product from "../../components/product";
 import bola1 from "../../assets/bola1.jpg";
 import bola2 from "../../assets/bola2.jpg";
 import bola3 from "../../assets/bola3.png";
@@ -61,24 +62,12 @@ const FirstPage = () => {
         </div>
       </header>
       <div id={styles.ballsGrid}>
-        <div className={styles.ball}>
-          <img src={bola1} alt="" />
-        </div>
-        <div className={styles.ball}>
-          <img src={bola2} alt="" />
-        </div>
-        <div className={styles.ball}>
-          <img src={bola3} alt="" />
-        </div>
-        <div className={styles.ball}>
-          <img src={bola4} alt="" />
-        </div>
-        <div className={styles.ball}>
-          <img src={bola5} alt="" />
-        </div>
-        <div className={styles.ball}>
-          <img src={bola6} alt="" />
-        </div>
+        <Product
+          imageUrl="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_gw/aventador/2023/02_09_refresh/aven_gate_s_01_m.jpg"
+          name="Aventador"
+          value={5000000}
+          quantity={4}
+        />
       </div>
     </div>
   );
