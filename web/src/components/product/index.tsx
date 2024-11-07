@@ -10,10 +10,12 @@ interface ProductProps {
 const Product = ({ name, imageUrl, value, quantity }: ProductProps) => {
   return (
     <div className={styles.card}>
-      <img src={imageUrl} alt="" />
+      <div id={styles.imgContainer}>
+        <img src={imageUrl} alt="" />
+      </div>
       <h1>{name}</h1>
-      <h1>R${value}</h1>
-      <h1>Estoque: {quantity}</h1>
+      <h2>R${value}</h2>
+      <p>Estoque: {quantity}</p>
     </div>
   );
 };

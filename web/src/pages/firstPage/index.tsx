@@ -4,12 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Product from "../../components/product";
-import bola1 from "../../assets/bola1.jpg";
-import bola2 from "../../assets/bola2.jpg";
-import bola3 from "../../assets/bola3.png";
-import bola4 from "../../assets/bola4.jpg";
-import bola5 from "../../assets/bola5.webp";
-import bola6 from "../../assets/bola6.webp";
+import AddForm from "../../components/addForm";
 
 export interface User {
   id: number;
@@ -23,10 +18,15 @@ const FirstPage = () => {
   const jwt_decode = jwtDecode;
   const navigate = useNavigate();
   const [userType, setUserType] = useState("user");
+  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     validarToken();
   }, []);
+
+  function closeForm() {
+    setOpenForm(false);
+  }
 
   function validarToken() {
     const token = localStorage.getItem("token") || "";
@@ -48,13 +48,23 @@ const FirstPage = () => {
 
   return (
     <div className={styles.container}>
+      {openForm && <AddForm closeForm={closeForm}/>}
       <header id={styles.header}>
         <h1>Tizão Bolas</h1>
         <div>
           {userType === "adm" && (
-            <button onClick={() => navigate("/admin")}>
-              <i className="fa-solid fa-screwdriver-wrench"></i>
-            </button>
+            <>
+              <button onClick={() => navigate("/admin")}>
+                <i className="fa-solid fa-screwdriver-wrench"></i>
+              </button>
+              <button
+                onClick={() => {
+                  setOpenForm(true);
+                }}
+              >
+                <i className="fa-solid fa-plus"></i>
+              </button>
+            </>
           )}
           <button
             onClick={() => {

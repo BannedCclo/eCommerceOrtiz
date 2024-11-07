@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    padding: 30px;
+    border: 5px solid green;
+    background-color: #fff;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#imgContainer {
+    width: 400px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    border: 5px solid green;
+}
+
+#imgContainer img {
+    width: 100%;
+}
