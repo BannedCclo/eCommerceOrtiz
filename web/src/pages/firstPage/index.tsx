@@ -55,7 +55,12 @@ const FirstPage = () => {
               <i className="fa-solid fa-screwdriver-wrench"></i>
             </button>
           )}
-          <button onClick={() => navigate("/login")}>
+          <button
+            onClick={() => {
+              navigate("/login");
+              localStorage.removeItem("token");
+            }}
+          >
             <i className="fa-solid fa-sign-out-alt"></i>
           </button>
         </div>
