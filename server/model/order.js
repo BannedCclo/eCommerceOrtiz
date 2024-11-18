@@ -1,29 +1,21 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../bd/bd");
 
-const Product = sequelize.define("Product", {
+const Order = sequelize.define("Order", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  value: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  quantity: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  imageurl: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  productId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 });
 
-module.exports = Product;
+module.exports = Order;

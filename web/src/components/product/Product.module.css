@@ -25,3 +25,33 @@
 #imgContainer img {
     width: 100%;
 }
+
+#admButtons {
+    display: flex;
+    gap: 20px;
+}
+
+#admButtons button {
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+}
+
+#admButtons button:first-child{
+    background-color: #ff0000;
+}
+
+#admButtons button:last-child{
+    background-color: green;
+}
+
+#userButtons button {
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    background-color: green;
+}

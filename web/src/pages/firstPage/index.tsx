@@ -4,7 +4,8 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Product from "../../components/product";
-import AddForm from "../../components/addForm";
+import Form from "../../components/form";
+import NotFound from "../../assets/notFound.png";
 
 export interface User {
   id: number;
@@ -14,18 +15,42 @@ export interface User {
   type: string;
 }
 
+export interface Product {
+  id: number;
+  name: string;
+  value: number;
+  quantity: number;
+  imageUrl: string;
+}
+
 const FirstPage = () => {
   const jwt_decode = jwtDecode;
   const navigate = useNavigate();
   const [userType, setUserType] = useState("user");
+  const [userId, setUserId] = useState<number>(0);
   const [openForm, setOpenForm] = useState(false);
+  const [productsArr, setProductsArr] = useState<Product[]>([]);
 
   useEffect(() => {
     validarToken();
+    syncProducts();
   }, []);
 
   function closeForm() {
     setOpenForm(false);
+  }
+
+  function syncProducts() {
+    api
+      .get("/products")
+      .then((response) => {
+        const array = response.data;
+        console.log(array);
+        setProductsArr(array);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function validarToken() {
@@ -38,6 +63,7 @@ const FirstPage = () => {
         console.log(response);
         const decodedToken: User = jwt_decode(token);
         setUserType(decodedToken.type);
+        setUserId(decodedToken.id);
       })
       .catch((error) => {
         console.log(error);
@@ -48,7 +74,7 @@ const FirstPage = () => {
 
   return (
     <div className={styles.container}>
-      {openForm && <AddForm closeForm={closeForm}/>}
+      {openForm && <Form id={-1} closeForm={closeForm} sync={syncProducts} />}
       <header id={styles.header}>
         <h1>Tizão Bolas</h1>
         <div>
@@ -66,6 +92,13 @@ const FirstPage = () => {
               </button>
             </>
           )}
+          {userType === "user" && (
+            <>
+              <button onClick={() => navigate("/cart")}>
+                <i className="fa-solid fa-cart-shopping"></i>
+              </button>
+            </>
+          )}
           <button
             onClick={() => {
               navigate("/login");
@@ -77,12 +110,18 @@ const FirstPage = () => {
         </div>
       </header>
       <div id={styles.ballsGrid}>
-        <Product
-          imageUrl="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_gw/aventador/2023/02_09_refresh/aven_gate_s_01_m.jpg"
-          name="Aventador"
-          value={5000000}
-          quantity={4}
-        />
+        {productsArr.map((product) => (
+          <Product
+            id={product.id}
+            userType={userType}
+            userId={userId}
+            imageUrl={product.imageUrl || NotFound}
+            name={product.name}
+            value={product.value}
+            quantity={product.quantity}
+            sync={syncProducts}
+          />
+        ))}
       </div>
     </div>
   );

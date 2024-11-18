@@ -1,8 +1,58 @@
 const express = require("express");
 const User = require("../model/user");
+const Product = require("../model/product");
+const Order = require("../model/order");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "123";
+
+router.get("/orders", async (req, res) => {
+  const orderArr = await Order.findAll().catch((err) => console.log(err));
+  res.json(orderArr);
+  console.log(orderArr);
+});
+
+router.post("/order", async (req, res) => {
+  const { productId, userId } = req.body;
+  console.log(productId, userId);
+  // const newOrder = await Order.create({ productId, userId });
+  // res.json(newOrder);
+  // console.log(newOrder);
+});
+
+router.get("/products", async (req, res) => {
+  const productArr = await Product.findAll().catch((err) => console.log(err));
+  res.json(productArr);
+  console.log(productArr);
+});
+
+router.get("/product/:id", async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findOne({ where: { id } });
+  res.json(product);
+  console.log(product);
+});
+
+router.post("/product", async (req, res) => {
+  const { name, value, quantity } = req.body;
+  const newProduct = await Product.create({ name, value, quantity });
+  res.json(newProduct);
+  console.log(newProduct);
+});
+
+router.put("/product/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, value, quantity } = req.body;
+  await Product.update({ name, value, quantity }, { where: { id } });
+  res.json({ message: "Produto atualizado com sucesso" });
+});
+
+router.delete("/product", async (req, res) => {
+  const { id } = req.body;
+  const deletedProduct = await Product.destroy({ where: { id } });
+  res.json(deletedProduct);
+  console.log(deletedProduct);
+});
 
 router.get("/test", (req, res) => {
   try {
@@ -78,6 +128,6 @@ router.delete("/user", async (req, res) => {
   const deletedUser = await User.destroy({ where: { id } });
   res.json(deletedUser);
   console.log(deletedUser);
-})
+});
 
 module.exports = router;
