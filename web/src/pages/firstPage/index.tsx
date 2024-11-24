@@ -30,12 +30,19 @@ const FirstPage = () => {
   const [userId, setUserId] = useState<number>(0);
   const [openForm, setOpenForm] = useState(false);
   const [productsArr, setProductsArr] = useState<Product[]>([]);
+  const [filteredProductsArr, setFilteredProductsArr] = useState<Product[]>([]);
   const [filter, setFilter] = useState("none");
+  const [filterType, setFilterType] = useState('maior')
+  const [filterValue, setFilterValue] = useState(0)
 
   useEffect(() => {
     validarToken();
     syncProducts();
   }, []);
+
+  useEffect(() => {
+    handleFilter(filterValue)
+  }, [filterValue,filter,filterType])
 
   function closeForm() {
     setOpenForm(false);
@@ -48,6 +55,7 @@ const FirstPage = () => {
         const array = response.data;
         console.log(array);
         setProductsArr(array);
+        handleFilter(null)
       })
       .catch((error) => {
         console.log(error);
@@ -73,8 +81,45 @@ const FirstPage = () => {
       });
   }
 
-  function handleFilter() {
+  function handleFilter(value : number | null) {
     if (filter == "value") {
+      var filteredproducts = productsArr
+      
+      switch (filterType) {
+        case 'maior':
+          filteredproducts = productsArr.filter(product => product.value > (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+        case 'igual':
+          filteredproducts = productsArr.filter(product => product.value === (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+        case 'menor':
+          filteredproducts = productsArr.filter(product => product.value < (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+      }
+    }
+    else if (filter == "quantity") {
+      var filteredproducts = productsArr
+      switch (filterType) {
+        case 'maior':
+          filteredproducts = productsArr.filter(product => product.quantity > (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+        case 'igual':
+          filteredproducts = productsArr.filter(product => product.quantity == (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+        case 'menor':
+          filteredproducts = productsArr.filter(product => product.quantity < (value || filterValue))
+          setFilteredProductsArr(filteredproducts)
+        break;
+      }
+      console.log(filteredproducts)
+    }
+    else {
+      setFilteredProductsArr(productsArr);
     }
   }
 
@@ -128,16 +173,24 @@ const FirstPage = () => {
           value={filter}
           onChange={(e) => {
             setFilter(e.target.value);
-            handleFilter();
           }}
         >
           <option value="none">Nenhum</option>
           <option value="value">Valor</option>
           <option value="quantity">Estoque</option>
         </select>
+        {filter != "none" && (<>
+          <select value={filterType} onChange={(e)=>{setFilterType(e.target.value)}}>
+            <option value="maior">{'>'}</option>
+            <option value="igual">{'='}</option>
+            <option value="menor">{'<'}</option>
+          </select>
+          <input type="number" value={filterValue} onChange={(e)=>{setFilterValue(parseInt(e.target.value))}}/>
+          </>
+        )}
       </div>
       <div id={styles.ballsGrid}>
-        {productsArr.map((product) => (
+        {filteredProductsArr.map((product) => (
           <Product
             id={product.id}
             userType={userType}
