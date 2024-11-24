@@ -1,9 +1,9 @@
 import styles from "./Product.module.css";
 import api from "../../service";
 import Form from "../form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-interface ProductProps {
+export interface ProductProps {
   id: number;
   userType: string;
   userId: number;
@@ -25,6 +25,7 @@ const Product = ({
   sync,
 }: ProductProps) => {
   const [openForm, setOpenForm] = useState(false);
+  const [currentCartItems, setCurrentCartItems] = useState([]);
 
   function closeForm() {
     setOpenForm(false);
@@ -43,7 +44,29 @@ const Product = ({
   }
 
   function addToCart() {
-    api.post("/order", { productId: id, userId: userId });
+    console.log(userId);
+    console.log(id);
+    if (quantity > 1) {
+      api
+        .post("/cartItem", {
+          productId: id,
+          name: name,
+          value: value,
+          userId: userId,
+        })
+        .then(() => {
+          const newQuantity = quantity - 1;
+          api
+            .put(`/product/${id}`, {
+              quantity: newQuantity,
+            })
+            .then(() => {
+              sync();
+              closeForm();
+            });
+        });
+    }
+
     //api.get("/orders");
   }
 

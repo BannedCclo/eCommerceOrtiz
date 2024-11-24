@@ -1,0 +1,21 @@
+#itemCard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 400px;
+    background-color: white;
+    border: 5px solid green;
+}
+
+#deleteBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}

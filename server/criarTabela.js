@@ -1,6 +1,7 @@
 const sequelize = require("./bd/bd");
 const User = require("./model/user");
 const Product = require("./model/product");
+const CartItem = require("./model/cartItem");
 const Order = require("./model/order");
 
 sequelize

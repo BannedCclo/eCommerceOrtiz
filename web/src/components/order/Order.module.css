@@ -1,0 +1,8 @@
+#order {
+    background-color: #ddd;
+    display: flex;
+    flex-flow: column;
+    padding: 10px;
+    border: 5px solid green;
+    width: 500px;
+}

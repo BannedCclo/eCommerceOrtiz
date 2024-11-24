@@ -56,7 +56,7 @@ const AdmPage = () => {
   return (
     <div className={styles.container}>
       <header id={styles.header}>
-        <h1>Tizão Bolas</h1>
+        <h1>E-commerce</h1>
         <div>
           <button onClick={() => navigate("/")}>
             <i className="fa-solid fa-arrow-left"></i>

@@ -20,7 +20,7 @@ export interface Product {
   name: string;
   value: number;
   quantity: number;
-  imageUrl: string;
+  imageurl: string;
 }
 
 const FirstPage = () => {
@@ -30,6 +30,7 @@ const FirstPage = () => {
   const [userId, setUserId] = useState<number>(0);
   const [openForm, setOpenForm] = useState(false);
   const [productsArr, setProductsArr] = useState<Product[]>([]);
+  const [filter, setFilter] = useState("none");
 
   useEffect(() => {
     validarToken();
@@ -72,14 +73,22 @@ const FirstPage = () => {
       });
   }
 
+  function handleFilter() {
+    if (filter == "value") {
+    }
+  }
+
   return (
     <div className={styles.container}>
       {openForm && <Form id={-1} closeForm={closeForm} sync={syncProducts} />}
       <header id={styles.header}>
-        <h1>Tizão Bolas</h1>
+        <h1>E-commerce</h1>
         <div>
           {userType === "adm" && (
             <>
+              <button onClick={() => navigate("/admOrders")}>
+                <i className="fa-solid fa-truck"></i>
+              </button>
               <button onClick={() => navigate("/admin")}>
                 <i className="fa-solid fa-screwdriver-wrench"></i>
               </button>
@@ -97,6 +106,9 @@ const FirstPage = () => {
               <button onClick={() => navigate("/cart")}>
                 <i className="fa-solid fa-cart-shopping"></i>
               </button>
+              <button onClick={() => navigate("/orders")}>
+                <i className="fa-solid fa-truck"></i>
+              </button>
             </>
           )}
           <button
@@ -109,13 +121,28 @@ const FirstPage = () => {
           </button>
         </div>
       </header>
+      <div id={styles.filter}>
+        <h2>Filtrar por:</h2>
+        <select
+          id=""
+          value={filter}
+          onChange={(e) => {
+            setFilter(e.target.value);
+            handleFilter();
+          }}
+        >
+          <option value="none">Nenhum</option>
+          <option value="value">Valor</option>
+          <option value="quantity">Estoque</option>
+        </select>
+      </div>
       <div id={styles.ballsGrid}>
         {productsArr.map((product) => (
           <Product
             id={product.id}
             userType={userType}
             userId={userId}
-            imageUrl={product.imageUrl || NotFound}
+            imageUrl={product.imageurl || NotFound}
             name={product.name}
             value={product.value}
             quantity={product.quantity}

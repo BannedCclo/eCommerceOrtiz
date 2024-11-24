@@ -13,6 +13,7 @@ const Form = ({ id, closeForm, sync }: FormProps) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState<number>();
   const [quantity, setQuantity] = useState<number>();
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (id != -1) {
@@ -22,6 +23,7 @@ const Form = ({ id, closeForm, sync }: FormProps) => {
           setName(response.data.name);
           setValue(response.data.value);
           setQuantity(response.data.quantity);
+          setImageUrl(response.data.imageurl);
         })
         .catch((error) => {
           console.log(error);
@@ -39,6 +41,7 @@ const Form = ({ id, closeForm, sync }: FormProps) => {
             name: name,
             value: value,
             quantity: quantity,
+            imageurl: imageUrl,
           })
           .then(() => {
             sync();
@@ -59,6 +62,7 @@ const Form = ({ id, closeForm, sync }: FormProps) => {
           name: name,
           value: value,
           quantity: quantity,
+          imageurl: imageUrl,
         })
         .then(() => {
           sync();
@@ -81,8 +85,14 @@ const Form = ({ id, closeForm, sync }: FormProps) => {
     <div id={styles.formContainer}>
       <div id={styles.formCard}>
         <div className={styles.inputContainer}>
-          <h1>Imagem:</h1>
-          <input type="file" />
+          <h1>Url da imagem:</h1>
+          <input
+            type="text"
+            value={imageUrl}
+            onChange={(e) => {
+              setImageUrl(e.target.value);
+            }}
+          />
         </div>
         <div className={styles.inputContainer}>
           <h1>Nome:</h1>

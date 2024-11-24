@@ -1,4 +1,4 @@
-.container {
+  .container {
     min-height: 100vh;
     display: flex;
     flex-flow: column;
@@ -35,38 +35,15 @@
     cursor: pointer;
   }
 
-  #cartAll {
-    width: fit-content;
+  #ordersBox {
+    padding: 10px;
     margin: 0 auto;
-  }
-
-  #itemsContainer {
-    height: 600px;
-    overflow-y: scroll;
-    padding: 20px;
+    width: 600px;
+    min-height: 300px;
+    gap: 10px;
+    background-color: white;
     border: 5px solid green;
     display: flex;
-    background-color: white;
-    gap: 20px;
-    flex-flow: column;
+    flex-direction: column;
     align-items: center;
-}
-
-#paymentInfos {
-  background-color: white;
-  border: 5px solid green;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-#paymentInfos>button {
-  background-color: green;
-  color: white;
-  font-size: 1.5em;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
+  }
