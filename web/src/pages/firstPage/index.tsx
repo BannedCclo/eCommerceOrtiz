@@ -38,6 +38,7 @@ const FirstPage = () => {
   useEffect(() => {
     validarToken();
     syncProducts();
+    handleFilter(null);
   }, []);
 
   useEffect(() => {
