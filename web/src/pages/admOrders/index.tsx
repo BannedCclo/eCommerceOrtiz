@@ -26,6 +26,7 @@ const Orders = () => {
       .get("/orders")
       .then((response) => {
         setOrders(response.data);
+        console.log(response.data)
       })
       .catch((err) => {
         console.log(err);
